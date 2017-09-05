@@ -433,7 +433,7 @@ enc_double(Encoder* e, double val)
 
     start = &(e->p[e->i]);
 
-    if(!double_to_shortest(start, e->curr->size, &len, val)) {
+    if(!double_to_shortest(start, e->curr->size - e->i, &len, val)) {
         return 0;
     }
 

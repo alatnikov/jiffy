@@ -424,20 +424,15 @@ enc_long(Encoder* e, ErlNifSInt64 val)
 static inline int
 enc_double(Encoder* e, double val)
 {
-    char* start;
-    size_t len;
-
     if(!enc_ensure(e, 32)) {
         return 0;
     }
 
-    start = &(e->p[e->i]);
+    // the simplest solution possible - decimal representation with
+    // just 2 digits after a colon, which we can change later
+    snprintf(&(e->p[e->i]), 32, "%.2f", val);
 
-    if(!double_to_shortest(start, e->curr->size, &len, val)) {
-        return 0;
-    }
-
-    e->i += len;
+    e->i += strlen(&(e->p[e->i])); 
     e->count++;
     return 1;
 }
